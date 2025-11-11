@@ -1,0 +1,54 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+#image-preview-container img {
+    max-height: 250px; /* Atur tinggi maksimum agar tidak terlalu besar */
+    width: auto;
+    object-fit: contain; /* Memastikan gambar pas dalam kotak tanpa terpotong */
+}
+
+/* Optional: Untuk center spinner jika dibutuhkan */
+#loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px; /* Memberi ruang untuk spinner */
+}
+/* ... (CSS sebelumnya) ... */
+
+.preview-box {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fdfdfd;
+}
+
+.preview-box img {
+    max-height: 250px;
+    width: auto;
+    object-fit: contain;
+}
+
+.placeholder-text {
+    margin: 0;
+}
+body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#f7f9fc;}
+.card { border-radius: 12px; }
+.navbar-brand { color:#0d6efd; }
+.form-check { margin-bottom:6px; }
+#predictionText { color:#0d6efd; }
