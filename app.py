@@ -13,7 +13,10 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-
+from modules.decision_tree_module import get_decision_tree_data
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 # --- Impor GLCM (Minggu 1) ---
 try:
     from modules.glcm_module import process_image_file
@@ -290,6 +293,12 @@ def skin_camera_process_route():
     except Exception as e:
         print(f"Error di rute /skin_camera_process: {e}")
         return jsonify({'status': 'error', 'message': f'Kesalahan saat memproses kamera: {str(e)}'}), 500
+@app.route('/tugas3')
+def tugas3():
+    """Halaman Decision Tree dengan data ID3 & plot sklearn."""
+    data = get_decision_tree_data()
+    # data = { features, gains, manual_tree, sklearn_tree (base64 png) }
+    return render_template('tugas3.html', data=data)
 
 # ===================== MAIN EXECUTION =====================
 if __name__ == '__main__':

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Minggu 3 – Decision Tree (ID3 & Sklearn)</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .card {
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        pre {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">GLCM • KNN • ID3</a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Minggu 1 - GLCM Dasar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('tugas2') }}">
+                        Minggu 2 - Deteksi Warna Kulit
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('tugas3') }}">Minggu 3 - Decision Tree</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <div class="card p-4 mb-4">
+            <h3>📘 Decision Tree – Play Golf Dataset</h3>
+            <p>Halaman ini menampilkan hasil perhitungan:</p>
+            <ul>
+                <li>Entropy & Information Gain setiap atribut</li>
+                <li>Pohon keputusan manual menggunakan algoritma ID3</li>
+                <li>Visualisasi pohon dari <b>sklearn DecisionTreeClassifier</b></li>
+            </ul>
+        </div>
+
+        <div class="card p-4 mb-4">
+            <h4>📊 Information Gain</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Atribut</th>
+                        <th>Information Gain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f, gain in data.gains.items() %}
+                    <tr>
+                        <td>{{f}}</td>
+                        <td>{{gain}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card p-4 mb-4">
+            <h4>🌳 Hasil Pohon Keputusan Manual (ID3)</h4>
+            <pre>{{ data.manual_tree }}</pre>
+        </div>
+
+        <div class="card p-4 mb-4 text-center">
+            <h4>🤖 Visualisasi Decision Tree (Sklearn)</h4>
+
+            <div class="d-flex justify-content-center">
+                <img src="data:image/png;base64,{{data.sklearn_tree}}" class="img-fluid mt-3 rounded shadow"
+                    style="max-width:700px;">
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

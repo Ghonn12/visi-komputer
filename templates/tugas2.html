@@ -12,14 +12,17 @@
     body {
       background: #f8f9fa;
     }
+
     .card {
       border-radius: 14px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
+
     .navbar-brand {
       font-weight: 600;
       letter-spacing: 0.5px;
     }
+
     .result-img {
       width: 100%;
       max-width: 100%;
@@ -27,9 +30,11 @@
       border-radius: 10px;
       transition: 0.4s ease;
     }
+
     .result-img:hover {
       transform: scale(1.02);
     }
+
     .placeholder-box {
       background: #f1f1f1;
       border-radius: 10px;
@@ -40,28 +45,33 @@
       color: #aaa;
       transition: 0.3s ease;
     }
+
     .btn-custom {
       transition: 0.3s;
     }
+
     .btn-custom:hover {
       transform: scale(1.03);
     }
+
     .roc-container {
       background: white;
       border-radius: 10px;
       padding: 1rem;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
+
     video,
     canvas {
       border-radius: 10px;
       border: 1px solid #ccc;
     }
+
     /* Style untuk spinner yang lebih besar */
     .spinner-border-lg {
-        width: 3rem;
-        height: 3rem;
-        border-width: .35em;
+      width: 3rem;
+      height: 3rem;
+      border-width: .35em;
     }
   </style>
 </head>
@@ -74,8 +84,17 @@
       </a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="/">Minggu 1 - GLCM</a></li>
-          <li class="nav-item"><a class="nav-link active" href="/tugas2">Minggu 2 - Deteksi Warna Kulit</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Minggu 1 - GLCM Dasar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('tugas2') }}">
+              Minggu 2 - Deteksi Warna Kulit
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('tugas3') }}">Minggu 3 - Decision Tree</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -87,7 +106,7 @@
         <div class="card p-3">
           <h5 class="mb-3"><i class="fa-solid fa-palette me-2"></i>Konfigurasi Model</h5>
           <form id="skinForm">
-            
+
             <!-- === MODIFIKASI: Tambah Dropdown Algoritma === -->
             <div class="mb-3">
               <label class="form-label">1️⃣ Pilih Algoritma</label>
@@ -184,8 +203,8 @@
     const colorSpaceSelect = document.getElementById('color_space'); // Ambil dropdown color_space
 
     algorithmSelect.addEventListener('change', () => {
-        // Hanya aktifkan 'K' jika algoritma adalah 'knn'
-        kValueSelect.disabled = (algorithmSelect.value !== 'knn');
+      // Hanya aktifkan 'K' jika algoritma adalah 'knn'
+      kValueSelect.disabled = (algorithmSelect.value !== 'knn');
     });
     // --- AKHIR MODIFIKASI ---
 
@@ -196,8 +215,8 @@
       e.preventDefault();
       const file = document.getElementById('imageInput').files[0];
       if (!file) {
-          alert('Pilih gambar terlebih dahulu!');
-          return;
+        alert('Pilih gambar terlebih dahulu!');
+        return;
       }
       const formData = new FormData();
       formData.append('image', file);
@@ -217,7 +236,7 @@
       afterBox.innerHTML = '<div class="spinner-border text-primary spinner-border-lg" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Memproses... Ini mungkin perlu waktu lama jika model belum di-cache.</p>';
       beforeBox.classList.add('placeholder-box');
       afterBox.classList.add('placeholder-box');
-      
+
       // Kosongkan ROC dan reset tombol
       rocContainer.innerHTML = "";
       rocData = null;
@@ -227,10 +246,10 @@
 
 
       const res = await fetch('/skin_process', { method: 'POST', body: formData });
-      
+
       // Tambah delay kecil agar UI spinner sempat muncul
-      await new Promise(resolve => setTimeout(resolve, 100)); 
-      
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const data = await res.json();
 
       if (data.status === 'success') {
@@ -296,9 +315,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      
+
       // Tambah delay kecil agar UI spinner sempat muncul
-      await new Promise(resolve => setTimeout(resolve, 100)); 
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       const data = await res.json();
       if (data.status === 'success') {
@@ -314,13 +333,13 @@
         afterBox.innerHTML = '<span>Belum ada hasil</span>';
         afterBox.classList.add('placeholder-box');
         document.getElementById('imageInput').value = null;
-        
+
         // --- PERBAIKAN DIMULAI ---
         // Hapus logika lama yang mengatur rocData = null
-        
+
         const rocContainer = document.getElementById('rocContainer');
         const btnEval = document.getElementById('btnEval');
-        
+
         // Kosongkan ROC container dan reset tombol
         rocContainer.innerHTML = "";
         btnEval.innerHTML = '<i class="fa-solid fa-microscope me-1"></i>Tampilkan Evaluasi';
@@ -337,7 +356,7 @@
           // Otomatis klik tombol untuk tampilkan ROC
           btnEval.click();
         } else {
-            rocData = null; // Set ke null jika data tidak diterima
+          rocData = null; // Set ke null jika data tidak diterima
         }
         // --- PERBAIKAN SELESAI ---
 
@@ -358,12 +377,12 @@
       <p><strong>Area Under Curve (AUC):</strong> ${auc.toFixed(4)}</p>
     </div>
   `;
-      
+
       const ctx = document.getElementById('rocChart').getContext('2d');
-      
+
       // Ubah data agar (FPR, TPR) menjadi poin (x, y)
       const dataPoints = fpr.map((value, index) => {
-          return { x: value, y: tpr[index] };
+        return { x: value, y: tpr[index] };
       });
       // Pastikan data terurut berdasarkan x (FPR)
       dataPoints.sort((a, b) => a.x - b.x);
@@ -435,7 +454,7 @@
           btnEval.innerHTML = '<i class="fa-solid fa-times me-1"></i>Tutup Peringatan';
           btnEval.classList.remove('btn-outline-success');
           // Perbaikan typo: btn_outline-danger -> btn-outline-danger
-          btnEval.classList.add('btn-outline-danger'); 
+          btnEval.classList.add('btn-outline-danger');
         }
       }
     });
